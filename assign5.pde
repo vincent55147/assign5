@@ -10,12 +10,13 @@ int treasureX,treasureY,bg1x=0,hphave;
 int fighterX,fighterY,i,enemysize=61,fightersize=51;
 int mode,s,ego=0,enemylose,shoothave=0,shootnum=0,f=5,bownX,bownY,score;
 int enemyCount = 8;
-
+int[] enemytag=new int[5];
 int[] enemyX = new int[enemyCount];
 int[] enemyY = new int[enemyCount];
 int [] shootX=new int[5];
 int [] shootY=new int[5];
 
+boolean[] enemytagtrue=new boolean[5];
 boolean[] enemyhave=new boolean[8];
 boolean[] shootleave=new boolean[5];
 boolean go_left  = false;
@@ -158,12 +159,15 @@ void draw()
   fighterX=width-fightersize;
   }
   
-   //shoot
+   //shoot move
      for(int e=0;e<5;e++){ 
     if(shootleave[e]){
     image(shoot,shootX[e],shootY[e]);
-    if(shootX[e]>=-31)
+    if(shootX[e]>=-31){
     shootX[e]-=3;
+    if(enemytagtrue[e])
+    shootY[e]+=enemytag[e];
+    }
     else{
     shootleave[e]=false;
     shoothave--;
@@ -232,8 +236,9 @@ void draw()
    ego=0;
   }
  
+  }
 }
-}
+
 // 0 - straight, 1-slope, 2-dimond
 void addEnemy(int type)
 {  
@@ -304,13 +309,30 @@ void addDiamondEnemy()
     }
   }
 }
+
 boolean ishit(int bX,int bY,int bW,int bH,int aX,int aY,int aW,int aH){
 if((aX+aW>=bX&&aX<=bX+bW)&&(aY+aH>=bY&&aY<=bY+bH))
       return(true);
     else
       return(false);
 }
-    
+
+int closeenemy(int []enemyX,int []enemyY,int shootX,int shootY,int fighterX){
+      float checkline;
+      int enemynum=-1;
+      float closeline=9999;
+      for(int l=0;l<8;l++){
+        if(enemyX[l]<+640-fightersize&&enemyX[l]>=0&&enemyX[l]<fighterX){
+     checkline=sqrt(abs((enemyX[l]-shootX)+(enemyY[l]-shootY)));
+     if(checkline<closeline){
+     closeline=checkline;
+     enemynum=l;
+     }
+      }
+    }
+    return(enemynum);
+}
+
 void startthing(){
 hphave=40;
    fighterX=width-fightersize;
@@ -378,11 +400,17 @@ if(shoothave<5){
       shootleave[shootnum%5]=true;
       shootX[shootnum%5]=fighterX-31;
       shootY[shootnum%5]=fighterY+fightersize/4;
-    }
+      enemytag[shootnum%5]=closeenemy(enemyX,enemyY,shootX[shootnum%5],shootY[shootnum%5],fighterX);
+      if(enemytag[shootnum%5]!=-1){
+      enemytag[shootnum%5]=(enemyY[enemytag[shootnum%5]]-shootY[shootnum%5])/100;
+       enemytagtrue[shootnum%5]=true;  
+  }
+  else
+  enemytagtrue[shootnum%5]=false;
     break;
   }
+  }
 }
-
 void keyReleased(){
     switch (keyCode) {
       case UP:
