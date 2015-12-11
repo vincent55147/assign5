@@ -1,4 +1,4 @@
-PImage enemy, fighter, treasure, shoot;
+PImage enemy, fighter, treasure, shoot; //<>// //<>//
 PImage[] flame=new PImage [5];
 //background
 PImage bg1, bg2, hp, bg3, start1, start2, end1, end2;
@@ -8,7 +8,7 @@ float hphave;
 int fighterX, fighterY, i, enemysize=61, fightersize=51;
 int mode, s, ego=0, enemylose, shoothave=0, shootnum=0, f=5, bownX, bownY, score;
 int enemyCount = 8;
-int[] enemytagY=new int[5];
+
 int[] enemytag=new int[5];
 int[] enemyX = new int[enemyCount];
 int[] enemyY = new int[enemyCount];
@@ -106,17 +106,17 @@ void draw()
       }
   
     //shoot
-    for (int e=0; e<5; e++) { 
-      if (shootleave[e]) {
-        image(shoot, shootX[e], shootY[e]);
-        if (shootX[e]>=-31) {
-          shootX[e]-=3;
-          enemytag[e]=closeenemy(enemyX, enemyY, shootX[e], shootY[e], fighterX);
-        if (enemytag[e]!=-1) 
-       shootY[e]+=(enemyY[enemytag[e]]-shootY[e])/100;
+    for (int ea=0; ea<5; ea++) { 
+      if (shootleave[ea]) {
+        image(shoot, shootX[ea], shootY[ea]);
+        if (shootX[ea]>=-31) {
+          shootX[ea]-=3;
+          enemytag[ea]=closeenemy(enemyX, enemyY, shootX[ea], shootY[ea], fighterX);
+        if (enemytag[ea]!=-1) 
+       shootY[ea]+=(enemyY[enemytag[ea]]-shootY[ea])/100;
         }
         else {
-          shootleave[e]=false;
+          shootleave[ea]=false;
           shoothave--;
         }
       }
