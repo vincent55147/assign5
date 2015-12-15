@@ -129,7 +129,7 @@ if(shootleave[p]==true&&enemyhave[r]==true){
 check=ishit(enemyX[r],enemyY[r],enemysize,enemysize,shootX[p],shootY[p],31,27);
 if(check==true){
 shoothave--;
-bown(r);
+bown_f(r);
 shootleave[p]=false;
 }
 }
@@ -144,7 +144,7 @@ if(enemyhave[p]==true){
 check=ishit(fighterX,fighterY,fightersize,fightersize,enemyX[p],enemyY[p],enemysize,enemysize);
 if(check==true){
 hphave-=195*20/100;
-bown(p);
+bown_f(p);
 }
 }
 check=false;
@@ -319,7 +319,7 @@ textFont(createFont("fh",20));
 text("Score:"+score,0,460);
 }
 
-void  bown(int  r){
+void  bown_f(int  r){
 enemyhave[r]=false;
 f=0;
 bownX=enemyX[r];
